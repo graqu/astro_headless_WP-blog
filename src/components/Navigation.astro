@@ -1,0 +1,31 @@
+---
+import NavLink from "./NavLink.astro";
+
+const currentRoute: string = Astro.url.pathname;
+const isElementActive = (route: string) => {
+  return currentRoute === route ? "border-blue-500 border-b-2" : "";
+};
+const routesToShow: Record<string, string> = {
+  "/": "home",
+  "/about-us": "about us",
+  "/blog": "blog",
+};
+---
+
+<nav class="bg-white shadow dark:bg-gray-800">
+  <div
+    class="container flex items-center justify-center p-6 mx-auto text-gray-600 capitalize dark:text-gray-300"
+  >
+    {
+      Object.keys(routesToShow).map((route) => {
+        return (
+          <NavLink
+            href={route}
+            label={routesToShow[route] || route}
+            activeClass={isElementActive(route)}
+          />
+        );
+      })
+    }
+  </div>
+</nav>
