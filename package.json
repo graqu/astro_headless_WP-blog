@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "headless-astro",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",
-    "@tailwindcss/vite": "^4.1.3",
+    "@tailwindcss/vite": "^4.1.7",
     "@types/canvas-confetti": "^1.9.0",
+    "@wordpress/interactivity": "^6.24.0",
     "astro": "^5.7.13",
     "canvas-confetti": "^1.9.3",
-    "tailwindcss": "^4.1.3"
+    "tailwindcss": "^4.1.7"
   }
 }

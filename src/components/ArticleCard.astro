@@ -1,5 +1,6 @@
 ---
-const { image, title, date, content } = Astro.props;
+import { formatDate } from "@src/utils/methods/utils";
+const { image, title, date, content, href } = Astro.props;
 const preparedDescription = (content: string) => {
   const clearString = content.replace(/<[^>]+>/g, ""); // Remove HTML tags
   const shortenedString =
@@ -9,21 +10,17 @@ const preparedDescription = (content: string) => {
 
   return shortenedString;
 };
-const formattedDate = new Date(date).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const formattedDate = formatDate(date);
 ---
 
 <div
   class="max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800"
 >
   <div class="px-4 py-2">
-    <h1 class="text-xl font-bold text-gray-800 uppercase dark:text-white"
-      >{title}</h1
+    <h2 class="font-bold h-[2em] text-gray-800 uppercase dark:text-white"
+      >{title}</h2
     >
-    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400"
+    <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"
       >{preparedDescription(content)}</p
     >
   </div>
@@ -36,9 +33,10 @@ const formattedDate = new Date(date).toLocaleDateString("en-US", {
 
   <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
     <p class="text-sm font-bold text-white">{formattedDate}</p>
-    <button
+    <a
       class="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-      >Read</button
-    >
+      href={href}
+      >Read
+    </a>
   </div>
 </div>

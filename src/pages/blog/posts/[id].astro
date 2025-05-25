@@ -1,0 +1,64 @@
+---
+import { formatDate } from "@src/utils/methods/utils";
+import Main from "@src/layouts/main.astro";
+import type { WP_Post } from "@src/utils/types/types";
+import Image from "astro/components/Image.astro";
+
+const { id } = Astro.params;
+
+console.log("id", id);
+
+let res = await fetch(
+  `https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts/${id}`
+);
+let post: WP_Post = await res.json();
+
+export async function getStaticPaths() {
+  let data = await fetch(
+    "https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts"
+  );
+  let posts = await data.json();
+
+  return posts.posts.map((post: WP_Post) => ({
+    params: { slug: post.slug, id: post.ID.toString() },
+    props: { post: post },
+  }));
+}
+---
+
+<Main content={{ title: post.title }}>
+  <article>
+    <h1 class="text-amber-700" set:html={post.title} />
+    <Image
+      src={post.featured_image}
+      alt={post.title}
+      class="w-full max-w-[500px] h-auto mx-auto mb-10"
+      width={500}
+      height={300}
+      loading="lazy"
+    />
+    <div class="flex items-center gap-x-6 mx-auto mb-4 max-w-[600px]">
+      <img
+        class="object-cover w-8 h-8 rounded-full"
+        src={post.author.avatar_URL}
+        alt={post.author.name}
+      />
+      <p>{post.author.name} {formatDate(post.date)}</p>
+    </div>
+    <Fragment set:html={post.content} />
+  </article>
+</Main>
+
+<style>
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  @media screen and (max-width: 640px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

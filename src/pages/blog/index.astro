@@ -1,0 +1,36 @@
+---
+import ArticleCard from "@src/components/ArticleCard.astro";
+import Main from "@src/layouts/main.astro";
+import type { WP_Post } from "@src/utils/types/types";
+
+const wpFetch = await fetch(
+  "https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts"
+);
+const rest = await wpFetch.json();
+const posts: WP_Post[] = rest.posts || [];
+const formatTitle = (title: string) => {
+  return title.length > 20 ? title.slice(0, 20) + "..." : title;
+};
+
+// console.log(posts);
+---
+
+<Main content={{ title: "Blog" }}>
+  <div
+    class="relative flex flex-wrap gap-2 justify-center items-stretch overflow-auto w-full"
+  >
+    {
+      posts.map((post) => {
+        return (
+          <ArticleCard
+            title={formatTitle(post.title)}
+            image={post.featured_image}
+            content={post.content}
+            date={post.date}
+            href={`/blog/posts/${post.ID}`}
+          />
+        );
+      })
+    }
+  </div>
+</Main>
