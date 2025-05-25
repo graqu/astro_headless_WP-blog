@@ -24,3 +24,14 @@ h5 {
 h6 {
   @apply text-sm font-medium mb-1;
 }
+
+h1.blog-title {
+  font-size: 3rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 640px) {
+  h1.blog-title {
+    font-size: 2rem;
+  }
+}

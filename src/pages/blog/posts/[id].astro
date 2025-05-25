@@ -6,17 +6,22 @@ import Image from "astro/components/Image.astro";
 
 const { id } = Astro.params;
 
-console.log("id", id);
+const url = import.meta.env.WP_URL;
 
-let res = await fetch(
-  `https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts/${id}`
-);
+/**
+ * Url to fetch a single post by ID from the WordPress.com API.
+ * Keep in mind that wordpress.org has different api key and post are fetched by slug.
+ *
+ * To fetch a post from your own wordpress.com site, you need to replace the
+ * "astroheadlessjw5.wordpress.com" with your own site name.
+ */
+
+let res = await fetch(url + id);
 let post: WP_Post = await res.json();
 
 export async function getStaticPaths() {
-  let data = await fetch(
-    "https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts"
-  );
+  const url = import.meta.env.WP_URL;
+  let data = await fetch(url);
   let posts = await data.json();
 
   return posts.posts.map((post: WP_Post) => ({
@@ -28,7 +33,7 @@ export async function getStaticPaths() {
 
 <Main content={{ title: post.title }}>
   <article>
-    <h1 class="text-amber-700" set:html={post.title} />
+    <h1 class="text-amber-700 blog-title" set:html={post.title} />
     <Image
       src={post.featured_image}
       alt={post.title}
@@ -48,17 +53,3 @@ export async function getStaticPaths() {
     <Fragment set:html={post.content} />
   </article>
 </Main>
-
-<style>
-  h1 {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 1em;
-  }
-
-  @media screen and (max-width: 640px) {
-    h1 {
-      font-size: 2rem;
-    }
-  }
-</style>

@@ -3,9 +3,13 @@ import ArticleCard from "@src/components/ArticleCard.astro";
 import Main from "@src/layouts/main.astro";
 import type { WP_Post } from "@src/utils/types/types";
 
-const wpFetch = await fetch(
-  "https://public-api.wordpress.com/rest/v1.1/sites/astroheadlessjw5.wordpress.com/posts"
-);
+const url = import.meta.env.WP_URL;
+/**
+ * Url to fetch a all posts from the WordPress.com API. Keep in mind that wordpress.org has different api key.
+ * To fetch a post from your own wordpress.com site, you need to replace the
+ * "astroheadlessjw5.wordpress.com" with your own site name.
+ */
+const wpFetch = await fetch(url);
 const rest = await wpFetch.json();
 const posts: WP_Post[] = rest.posts || [];
 const formatTitle = (title: string) => {
@@ -16,21 +20,39 @@ const formatTitle = (title: string) => {
 ---
 
 <Main content={{ title: "Blog" }}>
+  <div class="mb-6 max-w-[600px] mx-auto">
+    <h1 class="blog-title">Most popular JavaScript Frameworks</h1>
+    <p class="italic text-justify">
+      &nbsp;&nbsp;&nbsp;The following articles are AI-generated examples created
+      solely for the purpose of demonstrating a headless website setup connected
+      to a WordPress.com blog. These articles are not meant to be definitive
+      sources of technical information. Any resemblance to existing content is
+      purely coincidental. Readers are strongly encouraged to independently
+      verify all technical details and framework comparisons before making any
+      development decisions based on the content provided.
+    </p>
+  </div>
   <div
     class="relative flex flex-wrap gap-2 justify-center items-stretch overflow-auto w-full"
   >
     {
-      posts.map((post) => {
-        return (
-          <ArticleCard
-            title={formatTitle(post.title)}
-            image={post.featured_image}
-            content={post.content}
-            date={post.date}
-            href={`/blog/posts/${post.ID}`}
-          />
-        );
-      })
+      posts.length > 0 ? (
+        posts.map((post) => {
+          return (
+            <ArticleCard
+              title={formatTitle(post.title)}
+              image={post.featured_image}
+              content={post.content}
+              date={post.date}
+              href={`/blog/posts/${post.ID}`}
+            />
+          );
+        })
+      ) : (
+        <p class="text-center text-gray-500 w-full">
+          No posts available at the moment.
+        </p>
+      )
     }
   </div>
 </Main>
