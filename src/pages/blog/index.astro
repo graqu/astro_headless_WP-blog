@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "@src/components/ArticleCard.astro";
+import Articles from "@src/components/csr/Articles";
 import Main from "@src/layouts/main.astro";
 import type { WP_Post } from "@src/utils/types/types";
 
@@ -55,4 +56,5 @@ const formatTitle = (title: string) => {
       )
     }
   </div>
+  <Articles url={url} client:load />
 </Main>
