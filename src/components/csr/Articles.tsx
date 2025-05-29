@@ -1,11 +1,16 @@
-import { useState, type FC } from "react";
+import type { WP_Post } from "@src/utils/types/types";
+import { useEffect, useState } from "react";
+import ArticleCard from "./ArticleCard";
 
 type Props = {
   url: string;
+  timeStamp: Date;
 };
 
-const Articles: FC<Props> = ({ url }) => {
-  const [showConfirm, setShowConfirm] = useState(false);
+const Articles = ({ url, timeStamp }: Props) => {
+  const [posts, setPosts] = useState<WP_Post[]>([]);
+  /** Display post skeleton before load from wordpress */
+  const dummyPosts = Array.from({ length: 6 }, (_, i) => i);
 
   const fetchPostsData = async () => {
     try {
@@ -14,23 +19,21 @@ const Articles: FC<Props> = ({ url }) => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      setShowConfirm(true);
       console.log(data);
+      setPosts(data.posts || []);
     } catch (error) {
-      setShowConfirm(false);
       console.error("Fetch error:", error);
     }
   };
+  useEffect(() => {
+    fetchPostsData();
+  }, [url]);
 
   return (
     <>
-      {showConfirm ? <p>{url}</p> : <p>&nbsp;</p>}
-      <button
-        className="cursor-pointer border-2 border-blue-500 bg-blue-100 text-blue-700 px-4 py-2 rounded hover:bg-blue-200"
-        onClick={fetchPostsData}
-      >
-        Click Me
-      </button>
+      {posts && posts.length > 0
+        ? posts.map((post) => <ArticleCard key={post.ID} post={post} />)
+        : dummyPosts.map((_, index) => <ArticleCard key={index} />)}
     </>
   );
 };
