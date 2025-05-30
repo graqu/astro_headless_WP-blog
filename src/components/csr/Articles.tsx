@@ -32,7 +32,14 @@ const Articles = ({ url, timeStamp }: Props) => {
   return (
     <>
       {posts && posts.length > 0
-        ? posts.map((post) => <ArticleCard key={post.ID} post={post} />)
+        ? posts.map((post, idx) => (
+            <ArticleCard
+              key={post.ID}
+              post={post}
+              url={url}
+              disabled={idx === 2}
+            />
+          ))
         : dummyPosts.map((_, index) => <ArticleCard key={index} />)}
     </>
   );
