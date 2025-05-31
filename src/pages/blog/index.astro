@@ -14,12 +14,10 @@ const wpFetch = await fetch(url);
 const rest = await wpFetch.json();
 const posts: WP_Post[] = rest.posts || [];
 const timeStamp = new Date();
-timeStamp.setDate(timeStamp.getDate() - 1);
-
-// console.log(posts);
+timeStamp.setDate(timeStamp.getDate());
 ---
 
-<Main content={{ title: "Blog" }}>
+<Main content={{ title: "Blog" }} metaDescription="Most popular JavaScript Frameworks.">
   <div class="mb-6 max-w-[600px] mx-auto">
     <h1 class="blog-title">Most popular JavaScript Frameworks</h1>
     <p class="italic text-justify">

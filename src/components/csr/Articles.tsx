@@ -37,7 +37,7 @@ const Articles = ({ url, timeStamp }: Props) => {
               key={post.ID}
               post={post}
               url={url}
-              disabled={idx === 2}
+              disabled={timeStamp < new Date(post.date)}
             />
           ))
         : dummyPosts.map((_, index) => <ArticleCard key={index} />)}

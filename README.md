@@ -69,3 +69,14 @@ https://docs.astro.build/en/guides/content-collections/#building-for-server-outp
 * Static generation with Astro
 
 * Dynamic blog post pages
+
+
+
+## Some Wordpress.com API cheat sheet:
+
+Get details and content of post (or subpage)
+* https://public-api.wordpress.com/rest/v1.1/sites/[your-wordpress-site.com]/posts/${ID}
+Get all posts on your webside (with id's)
+* https://public-api.wordpress.com/rest/v1.1/sites/[your-wordpress-site.com]/posts
+Get all id's of subpages on your webside (with id's)
+* https://public-api.wordpress.com/rest/v1.1/sites/[your-wordpress-site.com]/dropdown-pages/

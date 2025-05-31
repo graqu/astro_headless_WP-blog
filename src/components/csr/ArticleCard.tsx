@@ -1,4 +1,4 @@
-import { formatDate } from "@src/utils/methods/utils";
+import { formatDate, shortenDescription } from "@src/utils/methods/utils";
 import type { WP_Post } from "@src/utils/types/types";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -13,16 +13,6 @@ type Props = {
 const ArticleCard = ({ post, disabled }: Props) => {
   const { title, content, date, featured_image: image, ID } = post || {};
   const formattedDate = date && formatDate(date);
-  const preparedDescription = (content: string | undefined) => {
-    if (!content) return null;
-    const clearString = content.replace(/<[^>]+>/g, ""); // Remove HTML tags
-    const shortenedString =
-      clearString.length > 100
-        ? clearString.substring(0, 100) + "..."
-        : clearString;
-
-    return shortenedString;
-  };
   const formatTitle = (title: string | undefined) => {
     if (!title) return null;
     return title.length > 20 ? title.slice(0, 20) + "..." : title;
@@ -34,7 +24,7 @@ const ArticleCard = ({ post, disabled }: Props) => {
         disabled ? styles["disabled-post"] : ""
       } max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 relative`}
     >
-      <div className={`${styles["post-bluring"]} hidden`}>
+      <div className={`${styles["post-bluring"]} hidden select-none`}>
         <div className="bg-white w-full text-center py-4 opacity-80">
           Available soon
         </div>
@@ -44,7 +34,7 @@ const ArticleCard = ({ post, disabled }: Props) => {
           {formatTitle(title)}
         </h2>
         <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-          {preparedDescription(content)}
+          {shortenDescription(content)}
         </p>
       </div>
 
