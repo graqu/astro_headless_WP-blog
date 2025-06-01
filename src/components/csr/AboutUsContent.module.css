@@ -1,0 +1,15 @@
+.wp-content {
+  display: block;
+}
+.wp-content h2 {
+  color: red;
+}
+
+/* Sample styles for wordpress block */
+/* use global to work properly with wordpress imported classes */
+.wp-content :global(.wp-block-gallery) {
+  display: flex;
+}
+.wp-content :global(.wp-block-gallery) img {
+  aspect-ratio: 4/3;
+}

@@ -1,5 +1,6 @@
 ---
-import ArticleCard from "@src/components/ArticleCard.astro";
+import ArticleCard from "@src/components/csr/ArticleCard";
+import Articles from "@src/components/csr/Articles";
 import Main from "@src/layouts/main.astro";
 import type { WP_Post } from "@src/utils/types/types";
 
@@ -12,14 +13,11 @@ const url = import.meta.env.WP_URL;
 const wpFetch = await fetch(url);
 const rest = await wpFetch.json();
 const posts: WP_Post[] = rest.posts || [];
-const formatTitle = (title: string) => {
-  return title.length > 20 ? title.slice(0, 20) + "..." : title;
-};
-
-// console.log(posts);
+const timeStamp = new Date();
+timeStamp.setDate(timeStamp.getDate());
 ---
 
-<Main content={{ title: "Blog" }}>
+<Main content={{ title: "Blog" }} metaDescription="Most popular JavaScript Frameworks.">
   <div class="mb-6 max-w-[600px] mx-auto">
     <h1 class="blog-title">Most popular JavaScript Frameworks</h1>
     <p class="italic text-justify">
@@ -35,24 +33,6 @@ const formatTitle = (title: string) => {
   <div
     class="relative flex flex-wrap gap-2 justify-center items-stretch overflow-auto w-full"
   >
-    {
-      posts.length > 0 ? (
-        posts.map((post) => {
-          return (
-            <ArticleCard
-              title={formatTitle(post.title)}
-              image={post.featured_image}
-              content={post.content}
-              date={post.date}
-              href={`/blog/posts/${post.ID}`}
-            />
-          );
-        })
-      ) : (
-        <p class="text-center text-gray-500 w-full">
-          No posts available at the moment.
-        </p>
-      )
-    }
+    <Articles url={url} client:visible timeStamp={timeStamp} />
   </div>
 </Main>

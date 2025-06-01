@@ -10,7 +10,10 @@ const title: string = "Heja";
 // https://docs.astro.build/basics/astro-components/
 ---
 
-<Main content={{ title }}>
+<Main
+  content={{ title }}
+  metaDescription="A simple Astro page with a headless connection to Wordpress.com ."
+>
   <div class="h-screen flex flex-col items-center justify-center">
     <h1>Hello everyone</h1>
     <Button>Click here for fun</Button>

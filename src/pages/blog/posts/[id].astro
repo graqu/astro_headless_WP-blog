@@ -3,6 +3,7 @@ import { formatDate } from "@src/utils/methods/utils";
 import Main from "@src/layouts/main.astro";
 import type { WP_Post } from "@src/utils/types/types";
 import Image from "astro/components/Image.astro";
+import { shortenDescription } from "@src/utils/methods/utils";
 
 const { id } = Astro.params;
 
@@ -29,9 +30,13 @@ export async function getStaticPaths() {
     props: { post: post },
   }));
 }
+console.log(url + id);
 ---
 
-<Main content={{ title: post.title }}>
+<Main
+  content={{ title: post.title }}
+  metaDescription={shortenDescription(post.content)}
+>
   <article>
     <h1 class="text-amber-700 blog-title" set:html={post.title} />
     <Image
