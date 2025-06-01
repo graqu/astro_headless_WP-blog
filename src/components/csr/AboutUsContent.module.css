@@ -1,0 +1,9 @@
+.wp-content {
+  display: block;
+}
+.wp-content h2 {
+  color: red;
+}
+.wp-content .wp-block-gallery {
+  display: flex;
+}
