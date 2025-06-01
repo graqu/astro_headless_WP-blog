@@ -4,6 +4,12 @@
 .wp-content h2 {
   color: red;
 }
-.wp-content .wp-block-gallery {
+
+/* Sample styles for wordpress block */
+/* use global to work properly with wordpress imported classes */
+.wp-content :global(.wp-block-gallery) {
   display: flex;
+}
+.wp-content :global(.wp-block-gallery) img {
+  aspect-ratio: 4/3;
 }
